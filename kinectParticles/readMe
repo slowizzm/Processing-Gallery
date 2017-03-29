@@ -1,4 +1,5 @@
-Project to allow user to interact with particles in global z space.
+Project to allow user to interact with particles in global z space. 
+Particles attract to the base of spine.
 
 Dependencies:
 KinectPV2: http://codigogenerativo.com/code/kinectpv2-k4w2-processing-library/
