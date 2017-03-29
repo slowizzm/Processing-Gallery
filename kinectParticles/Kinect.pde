@@ -38,8 +38,8 @@ void drawBody(KJoint[] joints) {
  
 void drawBone(KJoint[] joints, int jointType1, int jointType2) {
  
-  float xMapped = map(joint.getX(), 0, 512, 0, width);
-  //float yMapped = map(joint.getY(), 0, 424, 0, height);
+  float xMapped = map(joints[jointType1].getX(), -1.28, 1, 0, width);
+  //float yMapped = map(joints[jointType1].getY(), -0.3, 0.07, 0, height);
   float zMapped = map(joints[jointType1].getZ(), 1, 8, 0, height*2);
   
   mousePos_particles = new Vec2D(xMapped, zMapped);
