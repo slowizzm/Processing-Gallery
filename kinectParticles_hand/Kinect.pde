@@ -26,21 +26,11 @@ class KinectSkeleton {
       //if the skeleton is being tracked compute the skleton joints
       if (skeleton.isTracked()) {
         KJoint[] joints = skeleton.getJoints();
-
-        drawBody(joints);
+        
         //drawHandState(joints[KinectPV2.JointType_HandRight]);
         drawHandState(joints[KinectPV2.JointType_HandLeft]);
       }
     }
-  }
-
-  //draw the body
-  void drawBody(KJoint[] joints) {
-    //drawBone(joints, KinectPV2.JointType_SpineMid, KinectPV2.JointType_SpineBase);
-  }  
-
-  //draw a bone from two joints
-  void drawBone(KJoint[] joints, int jointType1, int jointType2) {
   }
 
   void drawHandState(KJoint joint) {
