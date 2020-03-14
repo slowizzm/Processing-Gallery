@@ -1,21 +1,16 @@
-import java.util.ArrayList;
-import KinectPV2.KJoint;
-import KinectPV2.*;
-
-KinectPV2 kinect;
-KinectSkeleton kSkel;
-
 class KinectSkeleton {
+  boolean isTracking = false;
+  Vec2D handPos;
+  AttractionBehavior particleAttractor;
+  KinectPV2 kinect;
 
-  KinectSkeleton() {
-    //Enables depth and Body tracking (mask image)
-    kinect.enableDepthMaskImg(true);
+  KinectSkeleton(KinectPV2 _kinect) {
+    kinect = _kinect;
     kinect.enableSkeletonDepthMap(true);
-
     kinect.init();
   }
 
-  void display() {
+  void getSkeleton() {
 
     //get the skeletons as an Arraylist of KSkeletons
     ArrayList<KSkeleton> skeletonArray =  kinect.getSkeletonDepthMap();
@@ -24,46 +19,39 @@ class KinectSkeleton {
     for (int i = 0; i < skeletonArray.size(); i++) {
       KSkeleton skeleton = (KSkeleton) skeletonArray.get(i);
       //if the skeleton is being tracked compute the skleton joints
+      isTracking = false;
       if (skeleton.isTracked()) {
+        isTracking = true;
         KJoint[] joints = skeleton.getJoints();
-        
-        //drawHandState(joints[KinectPV2.JointType_HandRight]);
-        drawHandState(joints[KinectPV2.JointType_HandLeft]);
+
+        drawHand(joints[KinectPV2.JointType_HandLeft]);
+      } else {
+        isTracking = false;
       }
     }
   }
 
-  void drawHandState(KJoint joint) {
+  void setHand(KJoint joint) {
+    handPos = new Vec2D(map(joint.getX(), 0, 512, 0, width), map(joint.getY(), 0, 424, 0, height));
+  }
 
+  void drawHand(KJoint joint) {
     handState(joint.getState());
-
-    float xMapped = map(joint.getX(), 0, 512, 0, width);
-    float yMapped = map(joint.getY(), 0, 424, 0, height);
-    //float zMapped = map(joint.getZ(), 1, 8, 0, height*2);
-
-
-    mousePos_particles = new Vec2D(xMapped, yMapped);
-
-    particles.physics.removeBehavior(mouseAttractor_particles);
-    mouseAttractor_particles = new AttractionBehavior(mousePos_particles, 250, 13);
-    particles.physics.addBehavior(mouseAttractor_particles);
-
-    //println(xMapped);
-    //println(yMapped);
-    //println(zMapped);
-  } 
+    setHand(joint);
+  }
 
   void handState(int handState) {
     switch(handState) {
-    case KinectPV2.HandState_Open:      
+    case KinectPV2.HandState_Open:   
+      particles.physics.removeBehavior(particleAttractor);
+      particleAttractor = new AttractionBehavior(handPos, 250, 13);
+      particles.physics.addBehavior(particleAttractor);
       break;
     case KinectPV2.HandState_Closed:
-      particles.physics.removeBehavior(mouseAttractor_particles);
+      particles.physics.removeBehavior(particleAttractor);
       break;
-      //case KinectPV2.HandState_Lasso:
-      //  break;
     case KinectPV2.HandState_NotTracked:
-      particles.physics.removeBehavior(mouseAttractor_particles);
+      particles.physics.removeBehavior(particleAttractor);
       break;
     }
   }

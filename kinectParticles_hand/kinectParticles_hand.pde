@@ -4,19 +4,24 @@ Vec2D mousePos_particles;
 AttractionBehavior mouseAttractor_P;
 Vec2D mousePos_P;
 
+
+import java.util.ArrayList;
+import KinectPV2.KJoint;
+import KinectPV2.*;
+
+KinectPV2 kinectDepth;
+KinectSkeleton kSkel;
+
 void setup() {
   fullScreen(P3D, 2);
   particles = new Particles();
 
-  kinect = new KinectPV2(this);
-  kSkel = new KinectSkeleton();
+  kSkel = new KinectSkeleton(new KinectPV2(this));
 }
 
 void draw() {
   background(0, 0, 33);
-  kSkel.display();
+  kSkel.getSkeleton();
 
-  particles.physics.update();
-  particles.drawParticles();
-  particles.drawLines();
+  particles.render();
 }

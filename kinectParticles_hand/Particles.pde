@@ -63,7 +63,6 @@ public class Particles {
   }
 
   // delaunay triangulation logic taken from here : 
-  // <a href="http://www.openprocessing.org/sketch/43503" target="_blank" rel="nofollow">http://www.openprocessing.org/sketch/43503</a>
   void drawLines() {
     // delaunay triangulation
     delaunay = new Delaunay(pos);
@@ -82,7 +81,6 @@ public class Particles {
       float endY2 = edges[i][3];
 
       float distance = dist(startX, startY, endX, endY);
-      //float distance2 = dist(startX2, startY2, endX2, endY2);
       // remap the distance to opacity values
       float trans = 255-map(distance, 0, 33, 0, 255);
       // stroke weight based on distance
@@ -101,5 +99,11 @@ public class Particles {
       ellipse(startX2, startY2, endX2/23, endY2/23);
       popStyle();
     }
+  }
+
+  void render() {
+    physics.update();
+    drawParticles();
+    drawLines();
   }
 }
