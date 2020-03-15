@@ -1,22 +1,26 @@
+import java.util.ArrayList;
+import KinectPV2.KJoint;
+import KinectPV2.*;
+import toxi.geom.*;
+import toxi.physics2d.*;
+import toxi.physics2d.behaviors.*;
+import toxi.math.*;
+import megamu.mesh.*;
+
+KinectPV2 kinect;
+KinectSkeleton kSkel;
+
 Particles particles;
-AttractionBehavior mouseAttractor_particles;
-Vec2D mousePos_particles;
-AttractionBehavior mouseAttractor_P;
-Vec2D mousePos_P;
 
 void setup() {
   fullScreen(P3D, 1);
   particles = new Particles();
-
-  kinect = new KinectPV2(this);
-  kSkel = new KinectSkeleton();
+  kSkel = new KinectSkeleton(new KinectPV2(this));
 }
 
 void draw() {
   background(0, 0, 33);
-  kSkel.display();
+  kSkel.getSkeleton();
 
-  particles.physics.update();
-  particles.drawParticles();
-  particles.drawLines();
+  particles.render();
 }
