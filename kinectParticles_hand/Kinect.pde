@@ -24,20 +24,20 @@ class KinectSkeleton {
         isTracking = true;
         KJoint[] joints = skeleton.getJoints();
 
-        getHandJoint(joints[KinectPV2.JointType_HandLeft]);
+        setHandStateAndHandPos(joints[KinectPV2.JointType_HandLeft]);
       } else {
         isTracking = false;
       }
     }
   }
 
-  void setHandPos(KJoint joint) {
+  void getHandPos(KJoint joint) {
     handPos = new Vec2D(map(joint.getX(), 0, 512, 0, width), map(joint.getY(), 0, 424, 0, height));
   }
 
-  void getHandJoint(KJoint joint) {
+  void setHandStateAndHandPos(KJoint joint) {
     handState(joint.getState());
-    setHandPos(joint);
+    getHandPos(joint);
   }
 
   void handState(int handState) {
