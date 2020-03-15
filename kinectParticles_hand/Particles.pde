@@ -1,13 +1,4 @@
-import toxi.geom.*;
-import toxi.physics2d.*;
-import toxi.physics2d.behaviors.*;
-import toxi.math.*;
-import megamu.mesh.*;
-
-
-
-
-public class Particles {
+class Particles {
   int NUM_PARTICLES = 3000;
 
   VerletPhysics2D physics;
